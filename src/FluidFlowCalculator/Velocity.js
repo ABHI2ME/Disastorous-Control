@@ -1,0 +1,77 @@
+import { useState } from "react";
+import styles from "./Velocity.module.css";
+import ButtonCalci from "../utils/ButtonCalci";
+
+function Velocity() {
+  const [Radius, setRadius] = useState(null);
+  const [Pressure, setPressure] = useState(null);
+  const [CenterRadius, setCenterRadius] = useState(null);
+  const [Viscosity, setViscosity] = useState(null);
+  const [Length, setLength] = useState(null);
+  const [answer, setanswer] = useState("");
+
+  function handleSolve() {
+    const speed =
+      ((Radius ** 2 * Pressure) / (4 * Viscosity * Length)) *
+      (1 - CenterRadius ** 2 / Radius ** 2);
+    setanswer(speed);
+  }
+
+  return (
+    <div className={styles.container}>
+      <h1>Enter Values</h1>
+      <div className={styles.inputs}>
+        <div className={styles["label-input"]}>
+          <label>Radius (units)</label>
+          <input
+            type="number"
+            value={Radius}
+            onChange={(e) => setRadius(e.target.value)}
+          ></input>
+        </div>
+
+        <div className={styles["label-input"]}>
+          <label>Pressure (units)</label>
+          <input
+            type="number"
+            value={Pressure}
+            onChange={(e) => setPressure(e.target.value)}
+          ></input>
+        </div>
+
+        <div className={styles["label-input"]}>
+          <label>Viscosity (units)</label>
+          <input
+            type="number"
+            value={Viscosity}
+            onChange={(e) => setViscosity(e.target.value)}
+          ></input>
+        </div>
+
+        <div className={styles["label-input"]}>
+          <label>Length of pipe (units)</label>
+          <input
+            type="number"
+            value={Length}
+            onChange={(e) => setLength(e.target.value)}
+          ></input>
+        </div>
+
+        <div className={styles["label-input"]}>
+          <label>Distance from center of pipe (units)</label>
+          <input
+            type="number"
+            value={CenterRadius}
+            onChange={(e) => setCenterRadius(e.target.value)}
+          ></input>
+        </div>
+      </div>
+      <div className={styles["btn-ans"]}>
+        <ButtonCalci handleSolve={handleSolve} />
+        {answer && <p>{answer}</p>}
+      </div>
+    </div>
+  );
+}
+
+export default Velocity;

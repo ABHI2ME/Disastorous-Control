@@ -1,24 +1,24 @@
 import { useState } from "react";
-import styles from "./HalfLife.module.css";
+import styles from "./SpaceTimePFR.module.css";
 import ButtonCalci from "../utils/ButtonCalci";
 
-function HalfLife() {
+function SpaceTimePFR() {
   const [order, setorder] = useState(null);
   const [initconcen, setiniconcen] = useState(null);
   const [rateconstant, setrateconstant] = useState(null);
+  const [Conversion, setConversion] = useState(null);
   const [answer, setanswer] = useState("");
 
   function handleSolve() {
     if (+order === 1) {
-      const thalf = 0.693 / rateconstant;
-      setanswer(thalf.toFixed(2));
+      const tau = (1 / rateconstant) * Math.log(1 / (1 - initconcen));
+      setanswer(tau.toFixed(2));
     } else {
-      const first = 2 ** (order - 1) - 1;
-      const second = initconcen ** (1 - order);
-      const third = rateconstant * (order - 1);
-      const thalf = (first * second) / third;
+      const tau =
+        (initconcen ** (1 - rateconstant) / rateconstant ** (1 - order)) *
+        ((1 - Conversion) ** (order - 1) / (1 - Conversion) ** (order - 1));
 
-      setanswer(thalf);
+      setanswer(tau.toFixed(2));
     }
   }
 
@@ -45,6 +45,15 @@ function HalfLife() {
         </div>
 
         <div className={styles["label-input"]}>
+          <label>Conversion (units)</label>
+          <input
+            type="number"
+            value={Conversion}
+            onChange={(e) => setConversion(e.target.value)}
+          ></input>
+        </div>
+
+        <div className={styles["label-input"]}>
           <label>Rate constant (units)</label>
           <input
             type="number"
@@ -60,4 +69,4 @@ function HalfLife() {
     </div>
   );
 }
-export default HalfLife;
+export default SpaceTimePFR;
